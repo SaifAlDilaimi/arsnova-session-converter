@@ -1,9 +1,5 @@
 const Answer = require('./answer.js')
 const randomstring = require("randomstring");
-const download = require('image-downloader')
-
-var http = require('http');
-var fs = require('fs');
 
 class Question{
     constructor(type, variant, subject, text, possibleAnswers, hint, solution, imageURL){
@@ -17,23 +13,6 @@ class Question{
         this.possibleAnswers = this.generateAnswers(possibleAnswers);
         this.imageName = randomstring.generate()+".png";
 
-        var options = {
-            url: this.imageURL,
-            dest: './tmp/'+this.imageName
-        }
-           
-        if (this.imageURL != null){               
-            downloadIMG(options)
-        }
-    }
-
-    async downloadIMG(options) {
-        try {
-          const { filename, image } = await download.image(options)
-          console.log(filename) // => /path/to/dest/image.jpg 
-        } catch (e) {
-          console.error(e)
-        }
     }
 
     generateAnswers(possibleAnswers){

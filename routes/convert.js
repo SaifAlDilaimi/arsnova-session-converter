@@ -39,18 +39,9 @@ router.get('/', function(req, res, next) {
 router.post('/upload', upload.single('session'),function(req, res) {
   var session_file = JSON.parse(fse.readFileSync(req.file.path, 'utf-8'));
 
-  var session = new Session(session_file);
+  var session = new Session().parse(session_file);
   
-  var tex = new LaTeXDoc(session);
-
-  var options = {
-    root: '../tmp/',
-    dotfiles: 'deny',
-    headers: {
-        'x-timestamp': Date.now(),
-        'x-sent': true
-    }
-  };
+  var tex = new LaTeXDoc().generateDoc(session).save();
 
   res.sendFile(path.resolve("./tmp/"+tex.pdf_name));
 });

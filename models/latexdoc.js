@@ -2,8 +2,15 @@ const fse = require('fs-extra');
 var execSync = require('child_process').execSync;
 
 class LaTeXDoc{
-    constructor(session){
+    constructor(){
+        
+    }
+
+    generateDoc(session){
         this.session = session;
+
+        console.log("test: "+this.session.name)
+
         this.doc = "\\documentclass[12pt]{article}"+
                 "\\usepackage[utf8]{inputenc}"+
                 "\\usepackage{amsmath}"+
@@ -17,11 +24,7 @@ class LaTeXDoc{
                 "\\title{"+this.session.name+"}"+
                 "\\begin{document}"+
                 "\\maketitle";
-        this.generateDoc();
-        this.save();
-    }
 
-    generateDoc(){
         var i_q;
         for(i_q = 0; i_q < this.session.questions.length; i_q++){
             var q = this.session.questions[i_q];

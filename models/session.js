@@ -1,9 +1,8 @@
 const Question = require('./question.js')
+const ImageDownloader = require('./imagedownloader')
 
 class Session{
-    constructor(session_json){
-        this.session_json = session_json;
-        this.parse(session_json);
+    constructor(){
     }
 
     parse(session_json){
@@ -23,7 +22,15 @@ class Session{
                 q.subject, 
                 q.text, 
                 q.possibleAnswers, q.hint, q.solution, q.image);
+            
+            if(q.imageURL != null){
+                var options = {
+                    url: q.imageURL,
+                    dest: './tmp/'+q.imageName
+                }
 
+                new ImageDownloader().download(options)
+            }
             questions.push(new_q);
         }
 
