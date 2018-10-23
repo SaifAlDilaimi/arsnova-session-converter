@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  form(method='post', enctype='multipart/form-data', action='/convert/upload' class="form-registration")
+    input(type='file', name='session')
+    input(type='submit', name='sessionupload', value='Upload Session JSON')
