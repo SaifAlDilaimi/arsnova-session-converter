@@ -1,15 +1,12 @@
 const fse = require('fs-extra');
-var execSync = require('child_process').execSync;
+const execSync = require('child_process').execSync;
 
 class LaTeXDoc{
-    constructor(){
-        
-    }
 
-    generateDoc(session){
+    constructor(session){
+
         this.session = session;
-
-        console.log("test: "+this.session.name)
+        console.log(session)
 
         this.doc = "\\documentclass[12pt]{article}"+
                 "\\usepackage[utf8]{inputenc}"+
@@ -51,18 +48,19 @@ class LaTeXDoc{
                 this.doc += "\\item{"+a.text+"}"
             }
             this.doc += "\\end{todolist}"
-        }
+        } 
     }
 
     save(){
         this.doc += "\\end{document}";
-        var datetimestamp = Date.now();
-        this.path_tex = "./tmp/"+datetimestamp+".tex";
-        this.path_pdf = "./tmp/"+datetimestamp+".pdf";
-        this.pdf_name = datetimestamp+".pdf";
-        fse.outputFileSync(this.path_tex, this.doc);
+        const currentTime = Date.now();
+        const texDocOutputPath = "./tmp/"+currentTime+".tex";
+        const pdfName = currentTime+".pdf";
+        const pdfOutputPath = "./tmp/"+pdfName;
+
+        fse.outputFileSync(texDocOutputPath, this.doc);
         
-        var cmd = 'pdflatex -interaction=nonstopmode -output-directory=./tmp/ '+this.path_tex;
+        var cmd = 'pdflatex -interaction=nonstopmode -output-directory=./tmp/ '+pdfOutputPath;
         try {
             execSync(cmd, {stdio:[0,1,2]});
         } catch (err) {
@@ -73,6 +71,8 @@ class LaTeXDoc{
             err.status;
             // etc
         }
+
+        return pdfName;
     }
 }
 

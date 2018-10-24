@@ -1,8 +1,10 @@
 const path = require('path');
-const Session = require('../models/session')
-const LaTeXDoc = require('../models/latexdoc')
-var express = require('express');
+const ConversionService = require('../models/service')
 const fse = require('fs-extra');
+var express = require('express');
+var Promise = require('promise')
+
+
 var router = express.Router();
 
 //multer object creation
@@ -37,13 +39,12 @@ router.get('/', function(req, res, next) {
 });
  
 router.post('/upload', upload.single('session'),function(req, res) {
-  var session_file = JSON.parse(fse.readFileSync(req.file.path, 'utf-8'));
+  var sessionJson = JSON.parse(fse.readFileSync(req.file.path, 'utf-8'));
 
-  var session = new Session().parse(session_file);
-  
-  var tex = new LaTeXDoc().generateDoc(session).save();
+  const service = new ConversionService();
+  const pdfName = service.exportLaTeXDocuments(sessionJson);
 
-  res.sendFile(path.resolve("./tmp/"+tex.pdf_name));
+  res.sendFile(path.resolve(`./tmp/${pdfName}`));
 });
 
 module.exports = router;
