@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+
+  p Bitte laden Sie eine ARSnova Session (.JSON) Datei hoch, um es zu einer PDF umzuwandeln.
 
   form(method='post', enctype='multipart/form-data', action='/convert/upload' class="form-registration")
     input(type='file', name='session')
