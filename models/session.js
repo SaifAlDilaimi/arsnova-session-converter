@@ -9,12 +9,11 @@ class Session{
         this.questions = questions;
     }
 
-    static fromJson(sessionJson){
+    async fromJson(sessionJson){
         const name = sessionJson.exportData.session.name;
         const shortName = sessionJson.exportData.session.shortName;
         const questionParser = new QuestionParser();
-        const questions = Promise.all(questionParser.parseQuestions(sessionJson));
-        console.log(questions)
+        const questions = await questionParser.parseQuestions(sessionJson);
 
         const session = new Session(name, shortName, questions);
 

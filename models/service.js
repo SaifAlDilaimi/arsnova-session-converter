@@ -5,9 +5,9 @@ const LaTeXDoc = require('./latexdoc');
 
 class ConvertionService {
     
-    exportLaTeXDocuments(sessionJson) {
+    async exportLaTeXDocuments(sessionJson) {
 
-        var session = Session.fromJson(sessionJson);
+        var session = await new Session().fromJson(sessionJson);
         var texDoc = new LaTeXDoc(session);
         const pdfName = texDoc.save();
 

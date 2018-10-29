@@ -8,12 +8,11 @@ class QuestionParser {
 
     async parseQuestions(sessionJson) {
 
-        const questionJson = sessionJson.exportData.questions;
+        var questionJson = sessionJson.exportData.questions;
 
         const imageDownloadPromises = questionJson
             .filter((questionRecord) => {
-                const questionHasImageUrl = questionRecord.imageURL != null;
-
+                const questionHasImageUrl = questionRecord.image != null;
                 return questionHasImageUrl;
             })
             .map((questionRecord) => {
@@ -24,29 +23,11 @@ class QuestionParser {
                     dest: destinationPath,
                     imageName: imageName
                 }
-
-                console.log(imageDownloadOption);
-
+                questionRecord.imageName = imageName
                 return imageDownloadOption;
             })
             .map((imageDownloadOption) => {
-                var response = https.get(imageDownloadOption.url);
-                var file = fse.createWriteStream(imageDownloadOption.destinationPath);
-                response.pipe(file);
-
-                console.log(response);
-
-                var imagePromise = new Promise((resolve, reject) => {
-                    response.on('end', () => {
-                      resolve()
-                    })
-                
-                    response.on('error', () => {
-                      reject()
-                    })
-                })                
-                /*const imagePromise = download.image(imageDownloadOption);*/
-                console.log("image: "+imagePromise);
+                const imagePromise = download.image(imageDownloadOption);
 
                 return imagePromise;
             });
@@ -60,7 +41,8 @@ class QuestionParser {
                 questionRecord.possibleAnswers,
                 questionRecord.hint,
                 questionRecord.solution,
-                questionRecord.image
+                questionRecord.image,
+                questionRecord.imageName
             );
 
             return question;

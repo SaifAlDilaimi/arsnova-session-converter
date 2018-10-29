@@ -6,13 +6,15 @@ class LaTeXDoc{
     constructor(session){
 
         this.session = session;
-        console.log(session)
 
         this.doc = "\\documentclass[12pt]{article}"+
+                "\\usepackage[T1]{fontenc}"+
                 "\\usepackage[utf8]{inputenc}"+
                 "\\usepackage{amsmath}"+
+                "\\usepackage{float}"+
                 "\\usepackage{graphicx}"+
                 "\\usepackage{enumitem,amssymb}"+
+                //"\\newcommand{\\quotedblbase}{\"}"+
                 "\\newlist{todolist}{itemize}{2}"+
                 "\\setlist[todolist]{label=$\\square$}"+
                 "\\usepackage{titlesec}"+
@@ -29,9 +31,9 @@ class LaTeXDoc{
             this.doc += "\\textbf{"+q.text+"}"
 
             if (q.imageURL != null){
-                this.doc += "\\begin{figure}[h!]"
+                this.doc += "\\begin{figure}[H]"
                 this.doc += "\\centering"
-                this.doc += "\\includegraphics[width=1]{./tmp/"+q.imageName+"}"
+                this.doc += "\\includegraphics[width=8cm]{./tmp/"+q.imageName+"}"
                 this.doc += "\\end{figure}"
             }
 
@@ -60,7 +62,7 @@ class LaTeXDoc{
 
         fse.outputFileSync(texDocOutputPath, this.doc);
         
-        var cmd = 'pdflatex -interaction=nonstopmode -output-directory=./tmp/ '+pdfOutputPath;
+        var cmd = 'pdflatex -interaction=nonstopmode -output-directory=./tmp/ '+texDocOutputPath;
         try {
             execSync(cmd, {stdio:[0,1,2]});
         } catch (err) {

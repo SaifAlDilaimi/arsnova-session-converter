@@ -38,11 +38,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
  
-router.post('/upload', upload.single('session'),function(req, res) {
+router.post('/upload', upload.single('session'), async function(req, res) {
   var sessionJson = JSON.parse(fse.readFileSync(req.file.path, 'utf-8'));
 
   const service = new ConversionService();
-  const pdfName = service.exportLaTeXDocuments(sessionJson);
+  const pdfName = await service.exportLaTeXDocuments(sessionJson);
 
   res.sendFile(path.resolve(`./tmp/${pdfName}`));
 });
