@@ -38,13 +38,17 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
  
-router.post('/upload', upload.single('session'), async function(req, res) {
-  var sessionJson = JSON.parse(fse.readFileSync(req.file.path, 'utf-8'));
+router.post('/upload', upload.single('session'), async (req, res, next) => {
+  try {  
+    var sessionJson = JSON.parse(fse.readFileSync(req.file.path, 'utf-8'));
 
-  const service = new ConversionService();
-  const pdfName = await service.exportLaTeXDocuments(sessionJson);
+    const service = new ConversionService();
+    const pdfName = await service.exportLaTeXDocuments(sessionJson);
 
-  res.sendFile(path.resolve(`./tmp/${pdfName}`));
+    res.sendFile(path.resolve(`./tmp/${pdfName}`)); 
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
