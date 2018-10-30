@@ -37,7 +37,7 @@ class LaTeXDoc{
                 this.doc += "\\end{figure}"
             }
 
-            if (q.hint != null){
+            if (q.hint != null || q.hint != ""){
                 this.doc += "\\newline"
                 this.doc += "\\newline" 
                 this.doc += "\\textbf{Hinweis: } "+q.hint
