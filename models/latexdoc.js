@@ -64,7 +64,7 @@ class LaTeXDoc{
         
         var cmd = 'pdflatex -interaction=nonstopmode -output-directory=./tmp/ '+texDocOutputPath;
         try {
-            execSync(cmd, {shell: '/bin/bash', stdio:[0,1,2]});
+            execSync(cmd, {shell: '/usr/bin/bash', stdio:[0,1,2]});
         } catch (err) {
             err.stdout;
             err.stderr;
