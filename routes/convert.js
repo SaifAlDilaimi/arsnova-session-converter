@@ -38,7 +38,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
  
-router.post('/upload', upload.single('session'), async (req, res, next) => {
+router.post('/upload', upload.single('session'), async(req, res, next) => {
   try {  
     var sessionJson = JSON.parse(fse.readFileSync(req.file.path, 'utf-8'));
 
