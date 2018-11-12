@@ -47,6 +47,7 @@ router.post('/upload', upload.single('session'), async(req, res, next) => {
 
     res.sendFile(path.resolve(`./tmp/${pdfName}`)); 
   } catch (error) {
+    console.log(error);
     next(error);
   }
 });

@@ -1,17 +1,24 @@
 const Answer = require('./answer.js')
 const randomstring = require("randomstring");
+const removeMd = require('remove-markdown')
 
 class Question{
-    constructor(type, variant, subject, text, possibleAnswers, hint, solution, imageURL, imageName){
+    constructor(type, variant, subject, text, possibleAnswers, hint, solution, downloadOptions){
         this.type = type;
         this.variant = variant;
-        this.subject = subject;
-        this.text = text.replace(/(\r\n\t|\n|\r\t)/gm,"");
+        
+        this.subject = removeMd(subject);
+        this.subject = this.subject.replace(/(\r\n\t|\n|\r\t)/gm,"");
+        this.subject = this.subject.replace(/%/g,"\\%");
+        
+        this.text = removeMd(text)
+        this.text = this.text.replace(/(\r\n\t|\n|\r\t)/gm,"");
+        this.text = this.text.replace(/%/g,"\\%");
+
         this.possibleAnswers = this.generateAnswers(possibleAnswers);
         this.hint = hint;
         this.solution = solution;
-        this.imageURL = imageURL
-        this.imageName = imageName;
+        this.downloadOptions = downloadOptions;
     }
 
     generateAnswers(possibleAnswers){

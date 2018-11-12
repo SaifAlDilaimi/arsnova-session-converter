@@ -30,12 +30,12 @@ class LaTeXDoc{
             this.doc += "\\section{"+q.subject+"}"
             this.doc += "\\textbf{"+q.text+"}"
 
-            if (q.imageURL != null){
+            q.downloadOptions.map((option) => {
                 this.doc += "\\begin{figure}[H]"
                 this.doc += "\\centering"
-                this.doc += "\\includegraphics[width=8cm]{./tmp/"+q.imageName+"}"
+                this.doc += "\\includegraphics[width=8cm]{./tmp/"+option.imageName+"}"
                 this.doc += "\\end{figure}"
-            }
+            });
 
             if (q.hint != null && q.hint != ""){
                 this.doc += "\\newline"

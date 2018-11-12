@@ -6,6 +6,17 @@ var https = require('https')
 
 class QuestionParser {
 
+    generateDownloadOption(url) {
+        const imageName = randomstring.generate()+".png";
+        const destinationPath = `./tmp/${imageName}`;
+        const imageDownloadOption = {
+            url: url,
+            dest: destinationPath,
+            imageName: imageName
+        }
+        return imageDownloadOption;
+    }
+
     async parseQuestions(sessionJson) {
 
         var questionJson = sessionJson.exportData.questions;
@@ -13,21 +24,31 @@ class QuestionParser {
         const imageDownloadPromises = questionJson
             .filter((questionRecord) => {
                 const questionHasImageUrl = questionRecord.image != null;
-                return questionHasImageUrl;
+                
+                const questionHasImagesInText = questionRecord.text.match(/\bhttps?:\/\/\S+/gi).length > 0 ? true : false;
+                questionRecord.imagesInText = questionRecord.text.match(/\bhttps?:\/\/\S+/gi)
+
+                return (questionHasImageUrl || questionHasImagesInText);
             })
             .map((questionRecord) => {
-                const imageName = randomstring.generate()+".png";
-                const destinationPath = `./tmp/${imageName}`;
-                const imageDownloadOption = {
-                    url: questionRecord.image,
-                    dest: destinationPath,
-                    imageName: imageName
+                var imageDownloadOptions = []
+                if(questionRecord.imagesInText != null){
+                    imageDownloadOptions.push(questionRecord.imagesInText.map(this.generateDownloadOption));
                 }
-                questionRecord.imageName = imageName
-                return imageDownloadOption;
+                
+                if(questionRecord.image != null){
+                    imageDownloadOptions.push(questionRecord.image);
+                }
+                
+                console.log(imageDownloadOptions[0])
+                questionRecord.downloadOptions = imageDownloadOptions[0]
+                return imageDownloadOptions[0];
             })
-            .map((imageDownloadOption) => {
-                const imagePromise = download.image(imageDownloadOption);
+            .map((imageDownloadOptions) => {
+                const imagePromise = imageDownloadOptions.map((option) => {
+                    console.log("Option to download: ", option)
+                    return download.image(option)
+                });
 
                 return imagePromise;
             });
@@ -41,8 +62,7 @@ class QuestionParser {
                 questionRecord.possibleAnswers,
                 questionRecord.hint,
                 questionRecord.solution,
-                questionRecord.image,
-                questionRecord.imageName
+                questionRecord.downloadOptions
             );
 
             return question;
