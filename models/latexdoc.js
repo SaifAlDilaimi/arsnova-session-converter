@@ -30,12 +30,14 @@ class LaTeXDoc{
             this.doc += "\\section{"+q.subject+"}"
             this.doc += "\\textbf{"+q.text+"}"
 
-            q.downloadOptions.map((option) => {
-                this.doc += "\\begin{figure}[H]"
-                this.doc += "\\centering"
-                this.doc += "\\includegraphics[width=8cm]{"+option.dest+"}"
-                this.doc += "\\end{figure}"
-            });
+            if(q.downloadOptions){
+                q.downloadOptions.map((option) => {
+                    this.doc += "\\begin{figure}[H]"
+                    this.doc += "\\centering"
+                    this.doc += "\\includegraphics[width=8cm]{"+option.dest+"}"
+                    this.doc += "\\end{figure}"
+                });
+            }
 
             if (q.hint != null && q.hint != ""){
                 this.doc += "\\newline"
