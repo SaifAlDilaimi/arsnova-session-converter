@@ -24,9 +24,13 @@ class QuestionParser {
         const imageDownloadPromises = questionJson
             .filter((questionRecord) => {
                 const questionHasImageUrl = questionRecord.image != null;
-                
-                const questionHasImagesInText = questionRecord.text.match(/\bhttps?:\/\/\S+/gi).length > 0 ? true : false;
-                questionRecord.imagesInText = questionRecord.text.match(/\bhttps?:\/\/\S+/gi)
+
+                var matchesInText = questionRecord.text.match(/\bhttps?:\/\/\S+/gi)
+                var questionHasImagesInText = false;
+                if(questionHasImagesInText){
+                    questionHasImagesInText = (matchesInText && matchesInText.length > 0) ? true : false;
+                    questionRecord.imagesInText = questionRecord.text.match(/\bhttps?:\/\/\S+/gi)
+                }
 
                 return (questionHasImageUrl || questionHasImagesInText);
             })
