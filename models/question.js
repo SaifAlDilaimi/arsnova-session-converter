@@ -11,7 +11,9 @@ class Question{
         this.subject = this.subject.replace(/(\r\n\t|\n|\r\t)/gm,"");
         this.subject = this.subject.replace(/%/g,"\\%");
         
-        this.text = md.parse(text)[1][1]
+        this.text = md.parse(text)[1][1];
+        this.text = removeMd(text);
+        console.log(md.parse(text)[1][1], this.text);
         this.text = this.text.replace(/(\r\n\t|\n|\r\t)/gm,"");
         this.text = this.text.replace(/%/g,"\\%");
 
