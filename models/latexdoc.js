@@ -1,7 +1,5 @@
 const fse = require('fs-extra');
 const execSync = require('child_process').execSync;
-var sleep = require('sleep');
-
 
 class LaTeXDoc{
 
@@ -71,7 +69,6 @@ class LaTeXDoc{
         //var cmd = 'pdflatex -synctex=1 -interaction=nonstopmode -output-directory=./tmp/ '+texDocOutputPath;
         try {
             execSync("pwd", {stdio:[0,1,2]});
-            sleep.sleep(2)
             execSync(cmd, {shell: '/usr/bin/bash', stdio:[0,1,2]});
             //execSync(cmd, {stdio:[0,1,2]});
 
