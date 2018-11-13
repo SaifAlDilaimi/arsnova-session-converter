@@ -43,7 +43,7 @@ class QuestionParser {
                     imageDownloadOptions.push([this.generateDownloadOption(questionRecord.image)]);
                 }
                 
-                console.log(imageDownloadOptions[0])
+                console.log(imageDownloadOptions)
                 questionRecord.downloadOptions = imageDownloadOptions[0]
                 return imageDownloadOptions[0];
             })
