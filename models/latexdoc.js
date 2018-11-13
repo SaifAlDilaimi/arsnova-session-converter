@@ -33,7 +33,7 @@ class LaTeXDoc{
             q.downloadOptions.map((option) => {
                 this.doc += "\\begin{figure}[H]"
                 this.doc += "\\centering"
-                this.doc += "\\includegraphics[width=8cm]{"+option.destinationPath+"}"
+                this.doc += "\\includegraphics[width=8cm]{"+option.dest+"}"
                 this.doc += "\\end{figure}"
             });
 
