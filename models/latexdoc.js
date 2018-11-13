@@ -65,12 +65,12 @@ class LaTeXDoc{
 
         fse.outputFileSync(texDocOutputPath, this.doc);
         
-        var cmd = '/net/vmits0310/disc1/texlive/2018/bin/x86_64-linux/pdflatex -interaction=nonstopmode -output-directory=./tmp/ '+texDocOutputPath;
-        //var cmd = 'pdflatex -synctex=1 -interaction=nonstopmode -output-directory=./tmp/ '+texDocOutputPath;
+        //var cmd = '/net/vmits0310/disc1/texlive/2018/bin/x86_64-linux/pdflatex -interaction=nonstopmode -output-directory=./tmp/ '+texDocOutputPath;
+        var cmd = 'pdflatex -synctex=1 -interaction=nonstopmode -output-directory=./tmp/ '+texDocOutputPath;
         try {
             execSync("pwd", {stdio:[0,1,2]});
-            execSync(cmd, {shell: '/usr/bin/bash', stdio:[0,1,2]});
-            //execSync(cmd, {stdio:[0,1,2]});
+            //execSync(cmd, {shell: '/usr/bin/bash', stdio:[0,1,2]});
+            execSync(cmd, {stdio:[0,1,2]});
 
         } catch (err) {
             console.log(err)
