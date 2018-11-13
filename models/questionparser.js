@@ -41,7 +41,7 @@ class QuestionParser {
                 }
                 
                 if(questionRecord.image != null){
-                    imageDownloadOptions.push(this.generateDownloadOption(questionRecord.image));
+                    imageDownloadOptions.push([this.generateDownloadOption(questionRecord.image)]);
                 }
                 
                 console.log(imageDownloadOptions[0])
