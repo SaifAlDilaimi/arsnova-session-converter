@@ -26,9 +26,8 @@ class QuestionParser {
                 const questionHasImageUrl = questionRecord.image != null;
 
                 var matchesInText = questionRecord.text.match(/\bhttps?:\/\/\S+/gi)
-                var questionHasImagesInText = false;
+                var questionHasImagesInText = (matchesInText && matchesInText.length > 0) ? true : false;
                 if(questionHasImagesInText){
-                    questionHasImagesInText = (matchesInText && matchesInText.length > 0) ? true : false;
                     questionRecord.imagesInText = questionRecord.text.match(/\bhttps?:\/\/\S+/gi)
                 }
 
