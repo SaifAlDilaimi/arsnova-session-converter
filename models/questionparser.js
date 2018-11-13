@@ -36,7 +36,7 @@ class QuestionParser {
             })
             .map((questionRecord) => {
                 var imageDownloadOptions = []
-                if(questionRecord.imagesInText != null){
+                if(questionRecord.imagesInText){
                     imageDownloadOptions.push(questionRecord.imagesInText.map(this.generateDownloadOption));
                 }
                 
