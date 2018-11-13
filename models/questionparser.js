@@ -71,7 +71,9 @@ class QuestionParser {
             return question;
         });
 
-        var status = await Promise.all(imageDownloadPromises);
+        var status = await Promise.all(imageDownloadPromises.map(async (entity) => {
+            return await Promise.all(entity)
+        }));
         console.log(status)
 
         return questions;
